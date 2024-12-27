@@ -1,5 +1,6 @@
 package com.whu.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.whu.constant.MessageConstant;
 import com.whu.exception.UserException;
 import com.whu.mapper.UserMapper;
@@ -20,7 +21,9 @@ public class UserServiceImpl implements UserService {
     public User login(LoginDTO loginDTO) {
         String username = loginDTO.getUsername();
         String password = loginDTO.getPassword();
-        User user = userMapper.getByUsername(username);
+        QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.eq("username", username);
+        User user = userMapper.selectOne(queryWrapper);
         if (user == null) {
             throw new UserException(MessageConstant.USER_NOT_FOUND);
         }
