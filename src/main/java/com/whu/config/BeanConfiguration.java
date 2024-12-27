@@ -9,10 +9,10 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class BeanConfiguration {
 
-    @Resource
+//    @Resource
     private MinioProperties minioProperties;
 
-    @Bean
+//    @Bean
     public MinioClient minioClient() {
         return MinioClient.builder()
                 .endpoint(minioProperties.getEndpoint())

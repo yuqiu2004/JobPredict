@@ -13,13 +13,13 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.UUID;
 
-@Component
+//@Component
 public class MinioUtil {
 
-    @Resource
+//    @Resource
     private MinioProperties properties;
 
-    @Resource
+//    @Resource
     private MinioClient minioClient;
 
     /**
