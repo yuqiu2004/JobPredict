@@ -1,7 +1,6 @@
 <template>
   <div class="page-container">
     <el-container>
-      <img src="../assets/nav-upper.png" style="padding: 0 20px; border-radius: 8px;" />
       <!-- Header -->
       <el-header class="header">
         <el-menu
@@ -15,8 +14,6 @@
           <el-menu-item index="0">
             <p><strong>首页</strong></p>
           </el-menu-item>
-          <el-menu-item index="1"><strong>人物墙</strong></el-menu-item>
-          <el-menu-item index="2"><strong>上传人物故事</strong></el-menu-item>
           <el-menu-item index="3"><strong>我的</strong></el-menu-item>
         </el-menu>
       </el-header>

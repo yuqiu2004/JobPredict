@@ -1,4 +1,3 @@
-## 马兰精神宣传大创项目
 
 ### 项目架构
 vue3 + vite + router + elementplus + vuex

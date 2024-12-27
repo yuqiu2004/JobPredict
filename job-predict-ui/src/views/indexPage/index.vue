@@ -1,6 +1,5 @@
 <template>
   <div class="home-container">
-    <h1 style="color: red;">欢迎来到信息云集平台</h1>
     <p>TEST INDEX PAGE</p>
     <button @click="handleClick">click here</button>
   </div>
