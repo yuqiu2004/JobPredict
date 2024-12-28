@@ -24,13 +24,13 @@ public class JobDataServiceImpl implements JobDataService {
         List<String> genders = List.of("Female", "Male", "Both");
         QueryWrapper queryWrapper;
         for (String gender : genders) {
-//            queryWrapper = new QueryWrapper<Double>().eq("preference", gender)
-//                    .select("AVG(salary) AS avg_salary");
-//            List<Double> list = jobDataMapper.selectObjs(queryWrapper);
+            queryWrapper = new QueryWrapper<Double>().eq("preference", gender)
+                    .select("AVG(salary) AS avg_salary");
+            List<Double> list = jobDataMapper.selectObjs(queryWrapper);
+            Double modeSalary = jobDataMapper.selectModeSalary();
             GenderSalaryVO vo = GenderSalaryVO.builder().gender(gender)
-                    .medianSalary(11.0)
-//                    .averageSalary(list.get(0))
-                    .averageSalary(5.0)
+                    .averageSalary(list.get(0))
+                    .medianSalary(modeSalary)
                     .build();
             res.add(vo);
         }
