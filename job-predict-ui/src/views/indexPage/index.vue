@@ -63,11 +63,104 @@ const initChart = (id, title, data) => {
 };
 
 onMounted(() => {
-  initChart('chart-box1', '性别倾向薪资统计', [5, 20, 36, 10, 10, 20]);
-  initChart('chart-box2', '学历倾向薪资统计', [15, 25, 10, 30, 20, 35]);
-  initChart('chart-box3', '不同学历数据量', [12, 18, 33, 25, 15, 22]);
-  initChart('chart-box4', '不同性别数据量', [8, 30, 25, 20, 30, 40]);
+  salaryGender().then((response) => {
+    const data = response.data.data;
+    const genders = data.map((item) => item.gender);
+    const avgSalaries = data.map((item) => item.average_salary);
+    const medSalaries = data.map((item) => item.median_salary);
+
+    initGroupedBarChart('chart-box1', '性别倾向薪资统计', genders, avgSalaries, medSalaries);
+  });
+
+  salaryEdu().then((response) => {
+    const data = response.data.data;
+    const educations = data.map((item) => item.education);
+    const avgSalaries = data.map((item) => item.average_salary);
+    const medSalaries = data.map((item) => item.median_salary);
+
+    initGroupedBarChart('chart-box2', '学历倾向薪资统计', educations, avgSalaries, medSalaries);
+  });
+
+  distributionEdu().then((response) => {
+    const data = response.data.data;
+    const educations = data.map((item) => item.education);
+    const counts = data.map((item) => item.count);
+
+    initPieChart('chart-box3', '不同学历数据量', educations, counts);
+  });
+
+  distributionGender().then((response) => {
+    const data = response.data.data;
+    const salaryRanges = data.map((item) => item.salary_range);
+    const counts = data.map((item) => item.count);
+
+    initHistogram('chart-box4', '不同薪资数据量', salaryRanges, counts);
+  });
 });
+
+const initGroupedBarChart = (id, title, categories, avgData, medianData) => {
+  const container = document.getElementById(id);
+  if (container) {
+    const chart = echarts.init(container);
+    chart.setOption({
+      backgroundColor: 'transparent',
+      title: { text: title },
+      tooltip: {},
+      legend: { data: ['平均薪资', '薪资众数'] },
+      xAxis: { type: 'category', data: categories },
+      yAxis: { type: 'value' },
+      series: [
+        { name: '平均薪资', type: 'bar', data: avgData },
+        { name: '薪资众数', type: 'bar', data: medianData },
+      ],
+    });
+
+    window.addEventListener('resize', () => chart.resize());
+  }
+};
+
+const initPieChart = (id, title, categories, data) => {
+  const container = document.getElementById(id);
+  if (container) {
+    const chart = echarts.init(container);
+    chart.setOption({
+      backgroundColor: 'transparent',
+      title: { text: title },
+      tooltip: { trigger: 'item' },
+      series: [
+        {
+          name: '数据量',
+          type: 'pie',
+          radius: '50%',
+          data: categories.map((category, index) => ({
+            value: data[index],
+            name: category,
+          })),
+        },
+      ],
+    });
+
+    window.addEventListener('resize', () => chart.resize());
+  }
+};
+
+const initHistogram = (id, title, salaryRanges, counts) => {
+  const container = document.getElementById(id);
+  if (container) {
+    const chart = echarts.init(container);
+    chart.setOption({
+      backgroundColor: 'transparent',
+      title: { text: title },
+      tooltip: {},
+      xAxis: { type: 'category', data: salaryRanges },
+      yAxis: { type: 'value' },
+      series: [{ name: '数据量', type: 'bar', data: counts }],
+    });
+
+    window.addEventListener('resize', () => chart.resize());
+  }
+};
+
 
 const store = useStore();
 const name = computed(() => store.state.login.name);
