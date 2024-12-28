@@ -24,6 +24,6 @@ export const distributionEdu = (data) => {
     return request.get('/education/distribution', data)
 }
 
-export const distributionGender = (data) => {
+export const distributionRange = (data) => {
     return request.get('salary/distribution', data)
 }

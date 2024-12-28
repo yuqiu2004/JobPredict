@@ -11,7 +11,7 @@
 </template>
 
 <script lang="js" setup>
-import {salaryEdu, salaryGender, distributionEdu, distributionGender} from '../../api/index.js'
+import {salaryEdu, salaryGender, distributionEdu, distributionRange} from '../../api/index.js'
 import { useStore } from 'vuex';
 import { computed, onMounted } from 'vue';
 import * as echarts from 'echarts/core';
@@ -69,12 +69,12 @@ onMounted(() => {
     initPieChart('chart-box3', '不同学历数据量', educations, counts);
   });
 
-  distributionGender().then((response) => {
+  distributionRange().then((response) => {
     const data = response.data.data;
     const salaryRanges = data.map((item) => item.salaryRange);
     const counts = data.map((item) => item.count);
 
-    initHistogram('chart-box4', '不同薪资数据量', salaryRanges, counts);
+    initPieChart('chart-box4', '不同薪资数据量', salaryRanges, counts);
   });
 });
 
@@ -123,24 +123,6 @@ const initPieChart = (id, title, categories, data) => {
     window.addEventListener('resize', () => chart.resize());
   }
 };
-
-const initHistogram = (id, title, salaryRanges, counts) => {
-  const container = document.getElementById(id);
-  if (container) {
-    const chart = echarts.init(container);
-    chart.setOption({
-      backgroundColor: 'transparent',
-      title: { text: title },
-      tooltip: {},
-      xAxis: { type: 'category', data: salaryRanges },
-      yAxis: { type: 'value' },
-      series: [{ name: '数据量', type: 'bar', data: counts }],
-    });
-
-    window.addEventListener('resize', () => chart.resize());
-  }
-};
-
 
 const store = useStore();
 const name = computed(() => store.state.login.name);
