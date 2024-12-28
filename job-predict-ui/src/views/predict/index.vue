@@ -83,7 +83,7 @@ const submitForm = async () => {
   }
   try {
     const response = await predict(form.value);
-    predictionResult.value = response.data.result || 'No result returned.';
+    predictionResult.value = response.data.data || 'No result returned.';
     ElMessage.success('Prediction successful!');
   } catch (error) {
     ElMessage.error('Prediction failed. Please try again.');
