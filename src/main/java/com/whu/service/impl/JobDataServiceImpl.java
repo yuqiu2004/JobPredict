@@ -27,7 +27,7 @@ public class JobDataServiceImpl implements JobDataService {
             queryWrapper = new QueryWrapper<Double>().eq("preference", gender)
                     .select("AVG(salary) AS avg_salary");
             List<Double> list = jobDataMapper.selectObjs(queryWrapper);
-            Double modeSalary = jobDataMapper.selectModeSalary();
+            Double modeSalary = jobDataMapper.selectModeSalary(gender);
             GenderSalaryVO vo = GenderSalaryVO.builder().gender(gender)
                     .averageSalary(list.get(0))
                     .medianSalary(modeSalary)
@@ -40,11 +40,18 @@ public class JobDataServiceImpl implements JobDataService {
     @Override
     public List<EducationSalaryVO> salaryEdu() {
         List<EducationSalaryVO> res = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
+        List<String> list = List.of("B", "M", "P"), str = List.of("学士", "硕士", "博士");
+        QueryWrapper queryWrapper;
+        for (int i = 0; i < list.size(); i++) {
+            String edu = list.get(i);
+            queryWrapper = new QueryWrapper<Double>().eq("qualification", edu)
+                    .select("AVG(salary) AS avg_salary");
+            List<Double> avg = jobDataMapper.selectObjs(queryWrapper);
+            Double modeSalary = jobDataMapper.selectModeSalaryByQualification(edu);
             res.add(EducationSalaryVO.builder()
-                            .education("学士")
-                            .averageSalary(10000.0)
-                            .medianSalary(100000.0)
+                    .education(str.get(i))
+                    .averageSalary(avg.get(0))
+                    .medianSalary(modeSalary)
                     .build());
         }
         return res;
