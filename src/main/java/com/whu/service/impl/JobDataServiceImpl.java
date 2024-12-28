@@ -77,10 +77,15 @@ public class JobDataServiceImpl implements JobDataService {
     @Override
     public List<SalaryRangeDistributionVO> distributionSalary() {
         List<SalaryRangeDistributionVO> res = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
+        List<Double> down = List.of(0.0, 70000.0, 80000.0, 90000.0, 100000.0);
+        List<Double> up = List.of(70000.0, 80000.0, 90000.0, 100000.0, 9000000.0);
+        List<String> str = List.of("<70000", "70000<=x<80000", "80000<=x<90000", "90000<=x<100000", ">=100000");
+        for (int i = 0; i < up.size(); i++) {
+            Double p1 = down.get(i), p2 = up.get(i);
+            Long count = jobDataMapper.countBySalaryRange(p1, p2);
             res.add(SalaryRangeDistributionVO.builder()
-                            .salaryRange("100-100")
-                            .count(100L)
+                            .salaryRange(str.get(i))
+                            .count(count)
                     .build());
         }
         return res;

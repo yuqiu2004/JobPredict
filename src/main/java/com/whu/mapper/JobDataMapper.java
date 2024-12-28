@@ -3,6 +3,7 @@ package com.whu.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.whu.pojo.entity.JobData;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 @Mapper
@@ -13,4 +14,7 @@ public interface JobDataMapper extends BaseMapper<JobData> {
 
     @Select("SELECT salary FROM job_data where qualification = #{qualificatioon} GROUP BY salary ORDER BY COUNT(*) DESC LIMIT 1")
     Double selectModeSalaryByQualification(String qualification);
+
+    @Select("SELECT COUNT(*) FROM job_data WHERE salary BETWEEN #{min} AND #{max}")
+    Long countBySalaryRange(@Param("min") Double min, @Param("max") Double max);
 }
