@@ -15,13 +15,14 @@ import {salaryEdu, salaryGender, distributionEdu, distributionGender} from '../.
 import { useStore } from 'vuex';
 import { computed, onMounted } from 'vue';
 import * as echarts from 'echarts/core';
-import { BarChart } from 'echarts/charts';
+import { BarChart, PieChart } from 'echarts/charts';
 import {
   TitleComponent,
   TooltipComponent,
   GridComponent,
   DatasetComponent,
   TransformComponent,
+  LegendComponent,
 } from 'echarts/components';
 import { LabelLayout, UniversalTransition } from 'echarts/features';
 import { CanvasRenderer } from 'echarts/renderers';
@@ -37,37 +38,16 @@ echarts.use([
   LabelLayout,
   UniversalTransition,
   CanvasRenderer,
+  LegendComponent,
+  PieChart,
 ]);
-
-// 初始化每个图表
-const initChart = (id, title, data) => {
-  const container = document.getElementById(id);
-  if (container) {
-    const chart = echarts.init(container);
-    chart.setOption({
-      backgroundColor: 'transparent',
-      title: { text: title },
-      tooltip: {},
-      xAxis: {
-        data: ['衬衫', '羊毛衫', '雪纺衫', '裤子', '高跟鞋', '袜子'],
-      },
-      yAxis: {},
-      series: [{ name: '销量', type: 'bar', data }],
-    });
-
-    // 响应窗口大小变化
-    window.addEventListener('resize', () => chart.resize());
-  } else {
-    console.error(`Chart container ${id} not found!`);
-  }
-};
 
 onMounted(() => {
   salaryGender().then((response) => {
     const data = response.data.data;
     const genders = data.map((item) => item.gender);
-    const avgSalaries = data.map((item) => item.average_salary);
-    const medSalaries = data.map((item) => item.median_salary);
+    const avgSalaries = data.map((item) => item.averageSalary);
+    const medSalaries = data.map((item) => item.medianSalary);
 
     initGroupedBarChart('chart-box1', '性别倾向薪资统计', genders, avgSalaries, medSalaries);
   });
@@ -75,8 +55,8 @@ onMounted(() => {
   salaryEdu().then((response) => {
     const data = response.data.data;
     const educations = data.map((item) => item.education);
-    const avgSalaries = data.map((item) => item.average_salary);
-    const medSalaries = data.map((item) => item.median_salary);
+    const avgSalaries = data.map((item) => item.averageSalary);
+    const medSalaries = data.map((item) => item.medianSalary);
 
     initGroupedBarChart('chart-box2', '学历倾向薪资统计', educations, avgSalaries, medSalaries);
   });
@@ -91,7 +71,7 @@ onMounted(() => {
 
   distributionGender().then((response) => {
     const data = response.data.data;
-    const salaryRanges = data.map((item) => item.salary_range);
+    const salaryRanges = data.map((item) => item.salaryRange);
     const counts = data.map((item) => item.count);
 
     initHistogram('chart-box4', '不同薪资数据量', salaryRanges, counts);
@@ -166,7 +146,7 @@ const store = useStore();
 const name = computed(() => store.state.login.name);
 
 const handleClick = () => {
-  console.log('你好！');
+  console.log("hello")
 };
 </script>
 
