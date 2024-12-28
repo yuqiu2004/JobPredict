@@ -1,10 +1,9 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 import Layout from '../views/Main.vue'
 import Login from '../views/loginPage/index.vue'
-import Index from "../views/indexPage/index.vue";
-import Soldier from '../views/soldierPage/index.vue'
-import Upload from '../views/soldierPage/upload.vue'
-import Detail from '../views/soldierPage/detail.vue'
+import Index from "../views/indexPage/index.vue"
+import Register from '../views/loginPage/register.vue'
+import Predict from '../views/predict/index.vue'
 
 const routes = [
     {
@@ -20,17 +19,13 @@ const routes = [
                 component: Index,
             },
             {
-                path: '/soldier',
-                component: Soldier,
+                path: '/register',
+                component: Register,
             },
             {
-                path: '/upload',
-                component: Upload,
-            },
-            {
-                path: '/detail',
-                component: Detail,
-            },
+                path: '/predict',
+                component: Predict,
+            }
         ],
     },
 ];

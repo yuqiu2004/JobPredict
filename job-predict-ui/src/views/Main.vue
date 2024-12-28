@@ -9,12 +9,12 @@
           mode="horizontal"
           :ellipsis="false"
           @select="handleSelect"
-          active-text-color="red"
+          active-text-color="black"
         >
           <el-menu-item index="0">
             <p><strong>首页</strong></p>
           </el-menu-item>
-          <el-menu-item index="3"><strong>我的</strong></el-menu-item>
+          <el-menu-item index="1"><strong>预测系统</strong></el-menu-item>
         </el-menu>
       </el-header>
 
@@ -46,17 +46,7 @@ onMounted( () => {
 const handleSelect = (index) => {
   switch (index) {
     case '0': router.push('/index'); break;
-    case '1': router.push('/soldier'); break;
-    case '2': {
-      router.push('/upload');//TODO:方便开发先不拦截
-      // if (token.value) router.push('/upload');
-      // else {
-      //   ElMessage.warning('warning: 请先登录')
-      //   router.push('/login');
-      // } 
-      break;
-    }
-    case '3': router.push('/login'); break;
+    case '1': router.push('/predict'); break;
   }
 }
 </script>
@@ -77,16 +67,19 @@ const handleSelect = (index) => {
 }
 
 .header-menu {
+  display: flex; /* 启用弹性布局 */
+  justify-content: center; /* 子元素居中 */
+  align-items: center; /* 垂直居中 */
   flex: 1;
 }
 
-.el-menu-item p {
-  margin: 0;
-  color: rgb(0, 0, 0);
+.el-menu-item {
+  margin: 0 10px; /* 水平间距 */
 }
 
+
 .el-menu--horizontal > .el-menu-item:nth-child(1) {
-  margin-right: auto;
+  margin-right: 0; /* 移除偏移 */
 }
 
 /* Main内容部分，使用flex-grow让它填充剩余空间 */
