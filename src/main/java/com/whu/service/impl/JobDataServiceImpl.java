@@ -60,10 +60,15 @@ public class JobDataServiceImpl implements JobDataService {
     @Override
     public List<EducationDistributionVO> distributionEdu() {
         List<EducationDistributionVO> res = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
+        List<String> list = List.of("B", "M", "P"), str = List.of("学士", "硕士", "博士");
+        QueryWrapper queryWrapper;
+        for (int i = 0; i < 3; i++) {
+            String edu = list.get(i);
+            queryWrapper = new QueryWrapper<Long>().eq("qualification", edu).select("count(*) as counts");
+            List<Long> counts = jobDataMapper.selectObjs(queryWrapper);
             res.add(EducationDistributionVO.builder()
-                            .education("硕士")
-                            .count(500L)
+                            .education(str.get(i))
+                            .count(counts.get(0))
                     .build());
         }
         return res;
