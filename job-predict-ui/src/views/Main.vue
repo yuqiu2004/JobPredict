@@ -71,6 +71,7 @@ const handleSelect = (index) => {
   justify-content: center; /* 子元素居中 */
   align-items: center; /* 垂直居中 */
   flex: 1;
+  z-index: 1;
 }
 
 .el-menu-item {
